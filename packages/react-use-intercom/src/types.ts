@@ -498,4 +498,16 @@ export type IntercomProviderProps = {
    * Pass properties to `boot` method when `autoBoot` is `true`
    */
   autoBootProps?: IntercomProps;
+  /**
+   * onBoot is called when the Intercom instance is booted
+   */
+  onBoot?: () => void;
+  /**
+   * onShutdown is called when the Intercom instance is shutdown
+   */
+  onShutdown?: () => void;
+  /**
+   * onHardShutdown is called when the Intercom instance is hard shutdown
+   */
+  onHardShutdown?: () => void;
 };

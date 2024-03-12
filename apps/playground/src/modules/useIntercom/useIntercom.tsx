@@ -306,7 +306,18 @@ const RawUseIntercomPage = () => {
 
 const UseIntercomPage = () => {
   return (
-    <IntercomProvider appId="jcabc7e3">
+    <IntercomProvider
+      appId="jcabc7e3"
+      onBoot={() => {
+        alert('Intercom is booted');
+      }}
+      onShutdown={() => {
+        alert('Intercom is shutdown');
+      }}
+      onHardShutdown={() => {
+        alert('Intercom is hard shutdown');
+      }}
+    >
       <RawUseIntercomPage />
     </IntercomProvider>
   );

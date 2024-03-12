@@ -28,6 +28,9 @@ export const IntercomProvider: React.FC<
   shouldInitialize = !isSSR,
   apiBase,
   initializeDelay,
+  onBoot,
+  onShutdown,
+  onHardShutdown,
   ...rest
 }) => {
   const isBooted = React.useRef(false);
@@ -67,8 +70,10 @@ export const IntercomProvider: React.FC<
       window.intercomSettings = metaData;
       IntercomAPI('boot', metaData);
       isBooted.current = true;
+
+      if (onBoot) onBoot();
     },
-    [apiBase, appId, shouldInitialize],
+    [apiBase, appId, shouldInitialize, onBoot],
   );
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -132,7 +137,9 @@ export const IntercomProvider: React.FC<
     IntercomAPI('shutdown');
     delete window.intercomSettings;
     isBooted.current = false;
-  }, []);
+
+    if (onShutdown) onShutdown();
+  }, [onShutdown]);
 
   const hardShutdown = React.useCallback(() => {
     if (!isBooted.current) return;
@@ -141,7 +148,9 @@ export const IntercomProvider: React.FC<
     delete window.Intercom;
     delete window.intercomSettings;
     isBooted.current = false;
-  }, []);
+
+    if (onHardShutdown) onHardShutdown();
+  }, [onHardShutdown]);
 
   const refresh = React.useCallback(() => {
     ensureIntercom('update', () => {
@@ -283,6 +292,9 @@ export const IntercomProvider: React.FC<
       startSurvey,
       showSpace,
       showNews,
+      onBoot,
+      onShutdown,
+      onHardShutdown,
     };
   }, [
     boot,
@@ -302,6 +314,9 @@ export const IntercomProvider: React.FC<
     startSurvey,
     showSpace,
     showNews,
+    onBoot,
+    onShutdown,
+    onHardShutdown,
   ]);
 
   return (

@@ -33,7 +33,7 @@ yarn add react-use-intercom
 
 ## Quickstart
 
-```ts
+```tsx
 import * as React from 'react';
 
 import { IntercomProvider, useIntercom } from 'react-use-intercom';
@@ -85,6 +85,9 @@ Place the `IntercomProvider` as high as possible in your application. This will 
 | autoBoot            | boolean          | indicates if Intercom should be automatically booted. If `true` no need to call `boot`, the `IntercomProvider` will call it for you  | false    |   false |
 | onHide              | () => void       | triggered when the Messenger hides                                                      | false    |         |
 | onShow              | () => void       | triggered when the Messenger shows                                                      | false    |         |
+| onBoot              | () => void       | triggered when the Messenger boots                                                      | false    |         |
+| onShutdown          | () => void       | triggered when the Messenger shuts down                                                 | false    |         |
+| onHardShutdown      | () => void       | triggered when the Messenger hard shuts down                                            | false    |         |
 | onUnreadCountChange | (number) => void | triggered when the current number of unread messages changes                            | false    |         |
 | onUserEmailSupplied | () => void | triggered when a visitor enters their email into the Messenger                         | false    |         |
 | shouldInitialize    | boolean | indicates if the Intercom should be initialized. Can be used in multistaged environment          | false    | true    |
@@ -93,7 +96,7 @@ Place the `IntercomProvider` as high as possible in your application. This will 
 | autoBootProps | IntercomProps | Pass properties to `boot` method when `autoBoot` is `true` | false    |         |
 
 #### Example
-```ts
+```tsx
 const App = () => {
   const [unreadMessagesCount, setUnreadMessagesCount] = React.useState(0);
 
@@ -131,29 +134,29 @@ Used to retrieve all methods bundled with Intercom. These are based on the offic
 
 #### API
 
-| name            | type                                       | description                                                                                                                         |
-|-----------------|--------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| isOpen              | boolean          | the visibility status of the messenger                                                  |
-| boot            | (props?: IntercomProps) => void            | boots the Intercom instance, not needed if `autoBoot` in `IntercomProvider` is `true`                                               |
-| shutdown        | () => void                                 | shuts down the Intercom instance                                                                                                     |
-| hardShutdown    | () => void                                 | same functionality as `shutdown`, but makes sure the Intercom cookies, `window.Intercom` and `window.intercomSettings` are removed. |
-| update          | (props?: IntercomProps) => void            | updates the Intercom instance with the supplied props. To initiate a 'ping', call `update` without props                            |
-| hide            | () => void                                 | hides the Messenger, will call `onHide` if supplied to `IntercomProvider`                                                           |
-| show            | () => void                                 | shows the Messenger, will call `onShow` if supplied to `IntercomProvider`                                                           |
-| showMessages    | () => void                                 | shows the Messenger with the message list                                                                                           |
-| showNewMessage  | (content?: string) => void                 | shows the Messenger as if a new conversation was just created. If `content` is passed, it will fill in the message composer         |
-| getVisitorId    | () => string                               | gets the visitor id                                                                                                                 |
-| startTour       | (tourId: number) => void                   | starts a tour based on the `tourId`                                                                                                 |
-| startChecklist       | (checklistId: number) => void                   | starts a checklist based on the `checklistId`                                                                                                 |
-| trackEvent      | (event: string, metaData?: object) => void | submits an `event` with optional `metaData`      
-| showArticle      | (articleId: string) => void | opens the Messenger with the specified article by `articleId`
-| startSurvey      | (surveyId: number) => void | Trigger a survey in the Messenger by `surveyId`
-| showSpace     | (spaceName: IntercomSpace) => void | Opens the Messenger with the specified space
-| showNews | (newsId: number) => void | Opens the Messenger with the specified news by `newsId`
+| name           | type                                       | description                                                                                                                                                                                      |
+| -------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| isOpen         | boolean                                    | the visibility status of the messenger                                                                                                                                                           |
+| boot           | (props?: IntercomProps) => void            | boots the Intercom instance, not needed if `autoBoot` in `IntercomProvider` is `true`. will call `onBoot` if supplied to `IntercomProvider`                                                      |
+| shutdown       | () => void                                 | shuts down the Intercom instance, will call `onShutdown` if supplied to `IntercomProvider`                                                                                                       |
+| hardShutdown   | () => void                                 | same functionality as `shutdown`, but makes sure the Intercom cookies, `window.Intercom` and `window.intercomSettings` are removed. will call `onHardShutdown` if supplied to `IntercomProvider` |
+| update         | (props?: IntercomProps) => void            | updates the Intercom instance with the supplied props. To initiate a 'ping', call `update` without props                                                                                         |
+| hide           | () => void                                 | hides the Messenger, will call `onHide` if supplied to `IntercomProvider`                                                                                                                        |
+| show           | () => void                                 | shows the Messenger, will call `onShow` if supplied to `IntercomProvider`                                                                                                                        |
+| showMessages   | () => void                                 | shows the Messenger with the message list                                                                                                                                                        |
+| showNewMessage | (content?: string) => void                 | shows the Messenger as if a new conversation was just created. If `content` is passed, it will fill in the message composer                                                                      |
+| getVisitorId   | () => string                               | gets the visitor id                                                                                                                                                                              |
+| startTour      | (tourId: number) => void                   | starts a tour based on the `tourId`                                                                                                                                                              |
+| startChecklist | (checklistId: number) => void              | starts a checklist based on the `checklistId`                                                                                                                                                    |
+| trackEvent     | (event: string, metaData?: object) => void | submits an `event` with optional `metaData`                                                                                                                                                      |
+| showArticle    | (articleId: string) => void                | opens the Messenger with the specified article by `articleId`                                                                                                                                    |
+| startSurvey    | (surveyId: number) => void                 | Trigger a survey in the Messenger by `surveyId`                                                                                                                                                  |
+| showSpace      | (spaceName: IntercomSpace) => void         | Opens the Messenger with the specified space                                                                                                                                                     |
+| showNews       | (newsId: number) => void                   | Opens the Messenger with the specified news by `newsId`                                                                                                                                          |
 
 
 #### Example
-```ts
+```tsx
 import * as React from 'react';
 
 import { IntercomProvider, useIntercom } from 'react-use-intercom';
